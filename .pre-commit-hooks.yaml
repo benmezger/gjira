@@ -1,7 +1,7 @@
--   id: jira
+-   id: gjira
     name: Jira issue commit message
     description: Add the issue ID to the body of the commit
-    entry: src/gjira.py
+    entry: gjira
     language: python
     always_run: true
     stages: [commit-msg]
