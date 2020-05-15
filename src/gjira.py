@@ -3,13 +3,25 @@
 from jira import JIRA
 import os
 import pathlib
+import argparse
 import subprocess
+
+
+DEFAULT_MSG = "Jira issue: {}\nJira story {}"
+
 
 def get_branch_name():
     return subprocess.check_output(
         ("git", "rev-parse", "--abbrev-ref", "HEAD",),
     ).decode("UTF-8")
 
+
+def arg_parser(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filenames", nargs="+")
+    parser.add_argument("--format", default=DEFAULT_MSG)
+    parser.add_argument("--board")
+    return parser.parse_args(argv)
 
 
 def get_jira_from_env() -> dict:
@@ -30,6 +42,8 @@ def get_issue(jira: JIRA, id: str):
 
 
 def main():
+    args = arg_parser(argv)
+
     options = get_jira_from_env()
     jira = JIRA(**options)
     board = get_jira_board()
