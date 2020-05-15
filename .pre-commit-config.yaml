@@ -1,0 +1,4 @@
+-   repo: .
+    rev: master
+    hooks:
+    -   id: jira
