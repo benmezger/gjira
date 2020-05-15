@@ -3,6 +3,13 @@
 from jira import JIRA
 import os
 import pathlib
+import subprocess
+
+def get_branch_name():
+    return subprocess.check_output(
+        ("git", "rev-parse", "--abbrev-ref", "HEAD",),
+    ).decode("UTF-8")
+
 
 
 def get_jira_from_env() -> dict:
