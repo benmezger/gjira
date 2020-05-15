@@ -4,4 +4,4 @@
     entry: src/gjira.py
     language: python
     always_run: true
-    stages: [prepare-commit-msg]
+    stages: [commit-msg]
