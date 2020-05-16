@@ -47,12 +47,12 @@ Finally, install the hook with pre-commit: `pre-commit install --hook-type prepa
 
 ## Troubleshooting
 
-- GJira is not append the issue/story to the commit message.
+- GJira is not appending the issue/story to the commit message.
 
   That's probably because you are not checkout to a branch with the required
   format or credentials are possibly wrong.
 
-- GJira is not append the story ID
+- GJira is not appending the story ID
 
   That's probably because your issue is not a subtask of a story.
 
