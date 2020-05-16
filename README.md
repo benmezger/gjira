@@ -11,9 +11,9 @@ task/story ID and appends to the body of the commit.
 ## Why?
 
 This came as a requirement from projects I work, where the branch name is
-require to have the task id, separated by a `/` and commits need to have the
+required to have the task id, separated by a `/` and commits need to have the
 issue id and story id attached. This allows managers to view commit flow during
-the week and visually graph team performance.
+the week and visually team performance.
 
 ## Requirements
 
@@ -47,16 +47,16 @@ Finally, install the hook with pre-commit: `pre-commit install --hook-type prepa
 
 ## Troubleshooting
 
-- GJira is not append the issue/story to the commit message.
+- GJira is not appending the issue/story to the commit message.
 
   That's probably because you are not checkout to a branch with the required
   format or credentials are possibly wrong.
 
-- GJira is not append the story ID
+- GJira is not appending the story ID
 
   That's probably because your issue is not a subtask of a story.
 
-- I need it solved now!
+- I need it solved right now!
 
   Run `pre-commit uninstall --hook-type prepare-commit-msg`. That should disable
   `prepare-commit-msg`.
