@@ -26,7 +26,8 @@ def get_branch_id():
     branch = get_branch_name().split("/")
 
     if len(branch) == 1:
-        raise ValueError("Bad branch name. Expected format of <id>/<txt>")
+        print("Bad branch name. Expected format of <id>/<txt>")
+        sys.exit(0)
 
     return branch[0]
 
