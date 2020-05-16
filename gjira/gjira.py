@@ -9,7 +9,7 @@ from jira import JIRA
 DEFAULT_MSG = "Jira issue: {}\nJira story {}"
 
 
-def get_branch_name():
+def get_branch_name() -> str:
     return subprocess.check_output(
         ("git", "rev-parse", "--abbrev-ref", "HEAD",),
     ).decode("UTF-8")
@@ -32,7 +32,7 @@ def get_issue_parent(issue) -> str:
     return ""
 
 
-def update_commit_message(filename, fmt):
+def update_commit_message(filename: str, fmt: str):
     with open(filename, "r+") as fd:
         contents = fd.readlines()
         fd.seek(0)
