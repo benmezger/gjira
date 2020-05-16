@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from jira import JIRA
 import os
 import pathlib
 import subprocess
 
+from jira import JIRA
 
 DEFAULT_MSG = "Jira issue: {}\nJira story {}"
 

@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 
+import argparse
 import sys
+
 from jira import JIRA
+
 from .gjira import (
-    get_jira_from_env,
+    DEFAULT_MSG,
     get_branch_name,
     get_issue,
     get_issue_parent,
+    get_jira_from_env,
     update_commit_message,
-    DEFAULT_MSG,
 )
-
-import argparse
 
 
 def arg_parser(argv):

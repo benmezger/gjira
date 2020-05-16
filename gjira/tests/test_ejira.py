@@ -1,6 +1,8 @@
-import pytest
-from .. import gjira
 import os
+
+import pytest
+
+from .. import gjira
 
 
 def test_get_branch_name(mocker):
