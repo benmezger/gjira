@@ -35,10 +35,8 @@ def get_issue_parent(issue) -> str:
 def update_commit_message(filename, fmt):
     with open(filename, "r+") as fd:
         contents = fd.readlines()
-        if not contents:
-            return
-
-        if len(contents) > 1:
-            fd.write(f"\n{fmt}")
-            return
+        fd.seek(0)
         fd.write(f"\n\n{fmt}")
+
+        for line in contents:
+            fd.write(line)
