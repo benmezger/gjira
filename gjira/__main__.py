@@ -34,10 +34,11 @@ def get_branch_id():
 
 def main(argv=None):
     args = arg_parser(argv)
-    options = get_jira_from_env()
-    jira = JIRA(**options)
 
     task_id = get_branch_id()
+    options = get_jira_from_env()
+
+    jira = JIRA(**options)
 
     # branch_issue = get_issue(jira, ticket_id)
     branch_issue = get_issue(jira, task_id)
