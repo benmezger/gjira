@@ -4,8 +4,10 @@ import io
 import os
 import pathlib
 import subprocess
+import sys
 
 from jira import JIRA
+from jira.exceptions import JIRAError
 
 DEFAULT_MSG = "Jira issue: {}\nJira story {}"
 
@@ -24,7 +26,16 @@ def get_jira_from_env() -> dict:
 
 
 def get_issue(jira: JIRA, id: str):
-    return jira.issue(id, fields="key, parent")
+    try:
+        return jira.issue(id, fields="key, parent")
+    except JIRAError as e:
+        if e.status_code == 404:
+            print(f"Issue '{id}' not found. Skipping.")
+        else:
+            print(
+                f"Error fetching issue '{id}'. Status code: {e.status_code} | {e.msg}"
+            )
+        sys.exit(0)
 
 
 def get_issue_parent(issue) -> str:
