@@ -24,7 +24,7 @@ def get_jira_from_env() -> dict:
 
 
 def get_issue(jira: JIRA, id: str):
-    return jira.issue(id)
+    return jira.issue(id, fields="key, parent")
 
 
 def get_issue_parent(issue) -> str:
