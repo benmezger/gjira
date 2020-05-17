@@ -60,3 +60,22 @@ Finally, install the hook with pre-commit: `pre-commit install --hook-type prepa
 
   Run `pre-commit uninstall --hook-type prepare-commit-msg`. That should disable
   `prepare-commit-msg`.
+
+## Development
+
+1. Install requirements
+   `pip install -r requirements.txt`
+2. Run `pytest`
+   `pytest .`
+
+There are two ways of manually running GJira.
+
+1. `python -m gjira` which will run `main()` in `__main__`
+2. Installing the cli to your system
+   `pip install .`
+
+## TODO
+
+- Check if issue is in commit when running `git ammend` and don't re-append
+- Cache issues the board and check the cache before doing a HTTP request
+  - add `--refresh` parameter to GJira
