@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import io
 import os
 import pathlib
 import subprocess
@@ -32,11 +33,30 @@ def get_issue_parent(issue) -> str:
     return ""
 
 
-def update_commit_message(filename: str, fmt: str):
+def update_commit_message(filename: str, fmt: str) -> list:
     with open(filename, "r+") as fd:
-        contents = fd.readlines()
-        fd.seek(0)
-        fd.write(f"\n\n{fmt}")
+        pos = 0
+        lines = []
+        for i, line in enumerate(fd):
+            lines.append(line)
+            if line.startswith("#") and not pos:  # have we already found a #?
+                pos = i
+                break
 
-        for line in contents:
+        if len(lines) > 1:
+            if lines[pos - 1].count("\n") > 1:
+                fmt = f"{fmt}\n"
+            else:
+                fmt = f"\n{fmt}\n"
+        else:
+            fmt = f"\n{fmt}\n"
+
+        # add fmt to the corresponding position and read any unread line
+        lines = lines[:pos] + [fmt] + lines[pos:] + fd.readlines()
+
+        # Write lines back to file
+        fd.seek(0)
+        for line in lines:
             fd.write(line)
+
+        return lines
