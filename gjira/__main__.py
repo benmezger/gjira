@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
 import argparse
+import pathlib
 import sys
 
 from jira import JIRA
 
-from .gjira import (
-    DEFAULT_MSG,
-    get_branch_name,
-    get_issue,
-    get_issue_parent,
-    get_jira_from_env,
-    update_commit_message,
-)
+from gjira.template import generate_template, get_template_context
+
+from .gjira import get_branch_name, get_issue, get_jira_from_env, update_commit_message
 
 
 def arg_parser(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", nargs="+")
-    parser.add_argument("--format", default=DEFAULT_MSG)
+    parser.add_argument(
+        "template",
+        default=str(pathlib.Path(".").joinpath(".commit.template")),
+        nargs="?",
+    )
     parser.add_argument("--board")
     return parser.parse_args(argv)
 
@@ -41,13 +41,11 @@ def main(argv=None):
 
     jira = JIRA(**options)
 
-    # branch_issue = get_issue(jira, ticket_id)
-    branch_issue = get_issue(jira, task_id)
-    branch_story = get_issue_parent(branch_issue)
+    attributes = get_template_context(args.template)
+    issue = get_issue(jira, task_id, attributes)
+    content = generate_template(issue, args.template)
 
-    fmt = (args.format or DEFAULT_MSG).format(branch_issue, branch_story)
-
-    update_commit_message(args.filenames[0], fmt)
+    update_commit_message(args.filenames[0], content)
 
 
 if __name__ == "__main__":

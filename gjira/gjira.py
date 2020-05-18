@@ -5,17 +5,20 @@ import os
 import pathlib
 import subprocess
 import sys
+from typing import Iterable
 
 from jira import JIRA
 from jira.exceptions import JIRAError
 
-DEFAULT_MSG = "Jira issue: {}\nJira story {}"
+
+def extract_content_keys(content: str) -> dict:
+    pass
 
 
 def get_branch_name() -> str:
-    return subprocess.check_output(
-        ("git", "rev-parse", "--abbrev-ref", "HEAD",),
-    ).decode("UTF-8")
+    return subprocess.check_output(("git", "rev-parse", "--abbrev-ref", "HEAD")).decode(
+        "UTF-8"
+    )
 
 
 def get_jira_from_env() -> dict:
@@ -25,9 +28,13 @@ def get_jira_from_env() -> dict:
     }
 
 
-def get_issue(jira: JIRA, id: str):
+def get_issue(jira: JIRA, id: str, attributes: Iterable) -> dict:
     try:
-        return jira.issue(id, fields="key, parent")
+        issue = jira.issue(id, fields=", ".join(attributes))
+        import pdb
+
+        pdb.set_trace()
+        return {k: v for (k, v) in ((i, getattr(issue, i, None)) for i in attributes)}
     except JIRAError as e:
         if e.status_code == 404:
             print(f"Issue '{id}' not found. Skipping.")
@@ -35,13 +42,7 @@ def get_issue(jira: JIRA, id: str):
             print(
                 f"Error fetching issue '{id}'. Status code: {e.status_code} | {e.msg}"
             )
-        sys.exit(0)
-
-
-def get_issue_parent(issue) -> str:
-    if hasattr(issue.fields, "parent"):
-        return issue.fields.parent.key
-    return ""
+        return {}
 
 
 def update_commit_message(filename: str, fmt: str) -> list:
