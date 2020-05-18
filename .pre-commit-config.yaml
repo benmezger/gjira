@@ -6,4 +6,5 @@ repos:
     rev: master
     hooks:
     -   id: gjira
+        language_version: python3
         args: ['--board=EMMENTAL']
