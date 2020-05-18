@@ -45,6 +45,10 @@ export jiratoken="token"
 
 Finally, install the hook with pre-commit: `pre-commit install --hook-type prepare-commit-msg`.
 
+## Asciinema
+
+[![asciicast](https://asciinema.org/a/331379.svg)](https://asciinema.org/a/331379)
+
 ## Troubleshooting
 
 - GJira is not appending the issue/story to the commit message.
