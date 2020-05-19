@@ -8,7 +8,13 @@ from jira import JIRA
 
 from gjira.template import generate_template, get_template_context
 
-from .gjira import get_branch_name, get_issue, get_jira_from_env, update_commit_message
+from .gjira import (
+    get_branch_name,
+    get_issue,
+    get_jira_from_env,
+    is_gjira_in_file,
+    update_commit_message,
+)
 
 
 def arg_parser(argv):
@@ -36,6 +42,10 @@ def get_branch_id():
 def main(argv=None):
     args = arg_parser(argv)
 
+    if is_gjira_in_file(args.filenames[0]):
+        print("Duplicated. Skipping")
+        sys.exit(0)
+
     task_id = get_branch_id()
     options = get_jira_from_env()
 
@@ -43,8 +53,11 @@ def main(argv=None):
 
     attributes = get_template_context(args.template)
     issue = get_issue(jira, task_id, attributes)
-    content = generate_template(issue, args.template)
 
+    if not issue.keys() or not issue.values():
+        sys.exit(0)
+
+    content = generate_template(issue, args.template)
     update_commit_message(args.filenames[0], content)
 
 
