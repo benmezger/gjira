@@ -4,8 +4,8 @@ GJira fetches a Jira issue based on the current branch name and appends to the
 commit body.
 
 The current supported branch format is `<issue_id>/<any/<text>`. GJira will
-first check whether the branch starts with the expected format, if not, it
-exits with `0` without exiting Git, otherwise it connects to Jira and gets the
+first check whether the branch starts with the expected format, if not, it exits
+with `0` without exiting Git, otherwise it connects to Jira and gets the
 task/story ID and appends to the body of the commit.
 
 ## Why?
@@ -60,8 +60,9 @@ underscore).
 
 ### Branch
 
-GJira find Jira ID by the branch name. You can use a regex to specify the location for the issue ID, for example:
-the regex `ISSUE-\d+` will match `ISSUE-123/branch-name` or `ISSUE-123-branch-name` etc.
+GJira find Jira ID by the branch name. You can use a regex to specify the
+location for the issue ID, for example: the regex `ISSUE-\d+` will match
+`ISSUE-123/branch-name` or `ISSUE-123-branch-name` etc.
 
 ### pre-commit
 
@@ -115,16 +116,13 @@ Finally, install the hook with pre-commit: `pre-commit install --hook-type prepa
 
 ## Development
 
-1. Install requirements
-   `pip install -r requirements.txt`
-2. Run `pytest`
-   `pytest .`
+1. Install requirements `pip install -r requirements.txt`
+2. Run `pytest` `pytest .`
 
 There are two ways of manually running GJira.
 
 1. `python -m gjira` which will run `main()` in `__main__`
-2. Installing the cli to your system
-   `pip install .`
+2. Installing the cli to your system `pip install .`
 
 ## TODO
 
