@@ -3,6 +3,7 @@
 import argparse
 import pathlib
 import sys
+import re
 
 from jira import JIRA
 
@@ -26,17 +27,19 @@ def arg_parser(argv):
         nargs="?",
     )
     parser.add_argument("--board")
+    parser.add_argument("--regex")
     return parser.parse_args(argv)
 
 
-def get_branch_id():
-    branch = get_branch_name().split("/")
+def get_branch_id(regex):
+    compiled_re = re.compile(regex)
+    branch = get_branch_name()
 
-    if len(branch) == 1:
-        print("Bad branch name. Expected format of <id>/<txt>. Skipping.")
+    if not compiled_re.match(branch):
+        print(f"Bad branch name. Expected format of '{regex}'. Skipping.")
         sys.exit(0)
 
-    return branch[0]
+    return compiled_re.findall(branch)[0]
 
 
 def main(argv=None):
@@ -46,7 +49,7 @@ def main(argv=None):
         print("Duplicated. Skipping")
         sys.exit(0)
 
-    task_id = get_branch_id()
+    task_id = get_branch_id(args.regex)
     options = get_jira_from_env()
 
     jira = JIRA(**options)
