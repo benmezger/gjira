@@ -22,6 +22,44 @@ the week and visually team performance.
 
 ## Setup
 
+### Git commit template
+
+GJira requires a commit template file. GJira supports Jinja2, which allows
+customizable templates based on Jira context. For example:
+
+```text
+# The following is automatically 'commit.template'
+
+Related Jira issue: {{ key }}
+Related Jira story: {{ parent__key }}
+Related Jira description: {{ summary }}
+```
+
+The keys are related to Jira issue attributes. For example:
+
+```text
+issue.fields.worklog.worklogs[0].author
+issue.fields.worklog.worklogs[0].comment
+issue.fields.worklog.worklogs[0].created
+issue.fields.worklog.worklogs[0].id
+issue.fields.worklog.worklogs[0].self
+issue.fields.worklog.worklogs[0].started
+issue.fields.worklog.worklogs[0].timeSpent
+issue.fields.worklog.worklogs[0].timeSpentSeconds
+issue.fields.worklog.worklogs[0].updateAuthor                # dictionary
+issue.fields.worklog.worklogs[0].updated
+
+issue.fields.timetracking.remainingEstimate           # may be NULL or string ("0m", "2h"...)
+issue.fields.timetracking.remainingEstimateSeconds    # may be NULL or integer
+issue.fields.timetracking.timeSpent                   # may be NULL or string
+issue.fields.timetracking.timeSpentSeconds            # may be NULL or integer
+```
+
+Inner issue fields **require** `.` (dot) to be replaced with `__` (double
+underscore).
+
+### pre-commit
+
 Add the following repository to your `.pre-commit-config.yml` file
 
 ```yaml
@@ -29,11 +67,16 @@ Add the following repository to your `.pre-commit-config.yml` file
   rev: master
   hooks:
     - id: gjira
-      args: ["--board=<board/project name>"]
+      args: ["--board=<board/project name>", "--template=.commit.template"]
 ```
 
-Change `<board/projec name>` with your current Jira project. Finally, set the
-following environment variables:
+### Branch
+
+Change `<board/projec name>` with your current Jira project.
+
+### Environment variables
+
+Set the following environment variables:
 
 ```sh
 export jiraserver="https://domain.atlassian.net"
@@ -42,6 +85,8 @@ export jirauser="your@email.com"
 # from: https://id.atlassian.com/manage-profile/security/api-tokens
 export jiratoken="token"
 ```
+
+### Installing the hook
 
 Finally, install the hook with pre-commit: `pre-commit install --hook-type prepare-commit-msg`.
 
@@ -80,6 +125,5 @@ There are two ways of manually running GJira.
 
 ## TODO
 
-- Check if issue is in commit when running `git ammend` and don't re-append
 - Cache issues the board and check the cache before doing a HTTP request
   - add `--refresh` parameter to GJira
