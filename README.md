@@ -58,6 +58,11 @@ issue.fields.timetracking.timeSpentSeconds            # may be NULL or integer
 Inner issue fields **require** `.` (dot) to be replaced with `__` (double
 underscore).
 
+### Branch
+
+GJira find Jira ID by the branch name. You can use a regex to specify the location for the issue ID, for example:
+the regex `ISSUE-\d+` will match `ISSUE-123/branch-name` or `ISSUE-123-branch-name` etc.
+
 ### pre-commit
 
 Add the following repository to your `.pre-commit-config.yml` file
@@ -67,12 +72,10 @@ Add the following repository to your `.pre-commit-config.yml` file
   rev: master
   hooks:
     - id: gjira
-      args: ["--board=<board/project name>", "--template=.commit.template"]
+      args: ["--board=<board/project name>",
+            "--template=.commit.template",
+            "--regex='ISSUE-\d+'"]
 ```
-
-### Branch
-
-Change `<board/projec name>` with your current Jira project.
 
 ### Environment variables
 
