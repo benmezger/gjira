@@ -22,7 +22,7 @@ def arg_parser(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument("filenames", nargs="+")
     parser.add_argument(
-        "template",
+        "--template",
         default=str(pathlib.Path(".").joinpath(".commit.template")),
         nargs="?",
     )
