@@ -3,17 +3,20 @@
 GJira fetches a Jira issue based on the current branch name and appends to the
 commit body.
 
-The current supported branch format is `<issue_id>/<any/<text>`. GJira will
-first check whether the branch starts with the expected format, if not, it exits
-with `0` without exiting Git, otherwise it connects to Jira and gets the
-task/story ID and appends to the body of the commit.
+GJira allows dynamic branches to be set per project and commit template by using
+dynamic Jira attributes.
 
 ## Why?
 
-This came as a requirement from projects I work, where the branch name is
-required to have the task id, separated by a `/` and commits need to have the
-issue id and story id attached. This allows managers to view commit flow during
-the week and visually team performance.
+This came as a requirement from projects I work where makes heavy use of Jira.
+Jira has support for [Smart
+commits](https://confluence.atlassian.com/fisheye/using-smart-commits-960155400.html)
+which we use in all projects where I work. This allows us to dynamically move
+cards around depending on their status, and link commits and branches to them.
+
+It's a neat feature for developers and projects managers, as it removes the
+overhead from developers by having to move cards around manually on each push
+and gives the project manager an insight of the current development workload.
 
 ## Requirements
 
@@ -28,11 +31,11 @@ GJira requires a commit template file. GJira supports Jinja2, which allows
 customizable templates based on Jira context. For example:
 
 ```text
-# The following is automatically 'commit.template'
+# The following is automatically by 'commit.template'
 
-Related Jira issue: {{ key }}
-Related Jira story: {{ parent__key }}
-Related Jira description: {{ summary }}
+Jira issue: {{ key }}
+{% if parent__key %}{Jira story: {{ parent__key }}}{% endif %}
+{% if summary %}{Jira summary: {{ summary }}}{% endif %}
 ```
 
 The keys are related to Jira issue attributes. For example:
