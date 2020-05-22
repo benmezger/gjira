@@ -83,3 +83,18 @@ def test_update_commit_msg_with_empty_text(mocker):
     assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[0].args[0]
     for (line, call) in zip(file_text.split("\n")[1:], write.write.call_args_list[2:]):
         assert line.strip() in call.args[0].strip("\n")
+
+
+def test_update_commit_msg_with_empty_text(mocker):
+    file_text = ""
+    fmt = "Jira issue: 123\nJira story: 1234"
+
+    open_mock = mocker.patch("builtins.open", mocker.mock_open(read_data=file_text))
+
+    gjira.update_commit_message("testfile", fmt)
+    open_mock.assert_called_once_with("testfile", "r+")
+    write = open_mock()
+
+    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[0].args[0]
+    for (line, call) in zip(file_text.split("\n")[1:], write.write.call_args_list[2:]):
+        assert line.strip() in call.args[0].strip("\n")
