@@ -3,7 +3,7 @@ repos:
     hooks:
     -   id: identity
 -   repo: .
-    rev: master
+    rev: HEAD
     hooks:
     -   id: gjira
         language_version: python3
