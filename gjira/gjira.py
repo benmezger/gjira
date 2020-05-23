@@ -87,6 +87,8 @@ def update_commit_message(filename: str, content: str) -> list:
                 break
 
         content = f"{GJIRA_START_TEXT}\n{content}\n"
+        pos = pos if pos else -1
+
         if len(lines) > 1:
             if lines[pos - 1 if pos else 0].count("\n") > 1:
                 content = f"{content}\n"
