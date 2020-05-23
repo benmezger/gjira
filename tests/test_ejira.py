@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from .. import gjira
+from gjira import gjira
 
 
 def test_issue_attr(jira_issue, jira_attributes):
