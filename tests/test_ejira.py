@@ -119,13 +119,13 @@ def test_update_commit_msg_without_summary(mocker):
     open_mock.assert_called_once_with("testfile", "r+")
     write = open_mock()
 
-    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[0].args[0]
-    for (line, call) in zip(file_text.split("\n")[1:], write.write.call_args_list[2:]):
+    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[6].args[0]
+    for (line, call) in zip(file_text.split("\n"), write.write.call_args_list[:6]):
         assert line.strip() in call.args[0].strip("\n")
 
 
 def test_update_commit_msg_with_summary(mocker):
-    file_text = """This is a summary and jira should be added in the next line.
+    file_text = """This is a summary and jira should be added in the next line after the comment.
     # A properly formed Git commit subject line should always be able to complete
     # the following sentence:
     #     * If applied, this commit <will your subject line here>
@@ -140,8 +140,8 @@ def test_update_commit_msg_with_summary(mocker):
     open_mock.assert_called_once_with("testfile", "r+")
     write = open_mock()
 
-    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[0].args[0]
-    for (line, call) in zip(file_text.split("\n")[1:], write.write.call_args_list[2:]):
+    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[6].args[0]
+    for (line, call) in zip(file_text.split("\n"), write.write.call_args_list[:6]):
         assert line.strip() in call.args[0].strip("\n")
 
 
