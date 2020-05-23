@@ -98,7 +98,7 @@ def update_commit_message(filename: str, content: str) -> list:
             content = f"\n{content}\n"
 
         # add fmt to the corresponding position and read any unread line
-        lines = lines[:pos] + [content] + lines[pos:] + fd.readlines()
+        lines = lines[:pos] + [content] + fd.readlines()
 
         # Write lines back to file
         fd.seek(0)
