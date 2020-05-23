@@ -7,7 +7,7 @@ import subprocess
 import sys
 from typing import Iterable
 
-from jira import JIRA
+from jira import JIRA, Issue
 from jira.exceptions import JIRAError
 
 GJIRA_START_TEXT = "Jira information:"
@@ -28,10 +28,32 @@ def get_jira_from_env() -> dict:
     }
 
 
+def issue_attr(
+    prop: object,
+    attribute: str,
+    _from: str = "fields",
+    attr_sep: str = ".",
+    default=None,
+):
+
+    if hasattr(prop, attribute):
+        return getattr(prop, attribute)
+
+    tmp = getattr(prop, _from, None)
+    for attr in attribute.split(attr_sep):
+        tmp = getattr(tmp, attr, default)
+    return tmp
+
+
 def get_issue(jira: JIRA, id: str, attributes: Iterable) -> dict:
     try:
-        issue = jira.issue(id, fields=", ".join(attributes))
-        return {k: v for (k, v) in ((i, getattr(issue, i, None)) for i in attributes)}
+        issue = jira.issue(
+            id, fields=", ".join(attr.split(".")[0] for attr in attributes)
+        )
+        return {
+            k.replace(".", "__"): v
+            for (k, v) in ((i, issue_attr(issue, i)) for i in attributes)
+        }
     except JIRAError as e:
         if e.status_code == 404:
             print(f"Issue '{id}' not found.")

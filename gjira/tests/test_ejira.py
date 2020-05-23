@@ -5,6 +5,81 @@ import pytest
 from .. import gjira
 
 
+def test_issue_attr(jira_issue, jira_attributes):
+    result = {}
+    for attr in jira_attributes:
+        result[attr] = gjira.issue_attr(jira_issue, attr)
+    assert result == {
+        "issuetype": "ISSUE TYPES",
+        "key": "ISSUE KEY",
+        "parent.key": "PARENT KEY",
+        "parent.summary": "PARENT SUMMARY",
+        "summary": "ISSUE SUMMARY",
+        "votes.votes": "ISSUE VOTES 4",
+    }
+
+
+def test_issue_attr_with_invalid_missing_attrs(jira_issue, jira_attributes):
+    delattr(getattr(jira_issue, "fields"), "votes")
+
+    result = {}
+    for attr in jira_attributes:
+        result[attr] = gjira.issue_attr(jira_issue, attr)
+    assert result == {
+        "issuetype": "ISSUE TYPES",
+        "key": "ISSUE KEY",
+        "parent.key": "PARENT KEY",
+        "parent.summary": "PARENT SUMMARY",
+        "summary": "ISSUE SUMMARY",
+        "votes.votes": None,
+    }
+
+
+def test_get_issue(jira_connection, jira_issue, jira_attributes):
+    setattr(jira_connection, "issue", lambda id, fields: jira_issue)
+    result = gjira.get_issue(jira_connection, "JIRA_ID", jira_attributes)
+
+    assert result == {
+        "issuetype": "ISSUE TYPES",
+        "key": "ISSUE KEY",
+        "parent__key": "PARENT KEY",
+        "parent__summary": "PARENT SUMMARY",
+        "summary": "ISSUE SUMMARY",
+        "votes__votes": "ISSUE VOTES 4",
+    }
+
+
+def test_get_issue_with_invalid_attr(jira_connection, jira_issue, jira_attributes):
+    delattr(getattr(jira_issue, "fields"), "votes")
+    setattr(jira_connection, "issue", lambda id, fields: jira_issue)
+    result = gjira.get_issue(jira_connection, "JIRA_ID", jira_attributes)
+
+    assert result == {
+        "issuetype": "ISSUE TYPES",
+        "key": "ISSUE KEY",
+        "parent__key": "PARENT KEY",
+        "parent__summary": "PARENT SUMMARY",
+        "summary": "ISSUE SUMMARY",
+        "votes__votes": None,
+    }
+
+
+def test_issue_attr_with_invalid_missing_attrs(jira_issue, jira_attributes):
+    delattr(getattr(jira_issue, "fields"), "votes")
+
+    result = {}
+    for attr in jira_attributes:
+        result[attr] = gjira.issue_attr(jira_issue, attr)
+    assert result == {
+        "issuetype": "ISSUE TYPES",
+        "key": "ISSUE KEY",
+        "parent.key": "PARENT KEY",
+        "parent.summary": "PARENT SUMMARY",
+        "summary": "ISSUE SUMMARY",
+        "votes.votes": None,
+    }
+
+
 def test_get_branch_name(mocker):
     subprocess = mocker.patch("subprocess.check_output")
     subprocess.return_value = b"SK12/feat/test"
