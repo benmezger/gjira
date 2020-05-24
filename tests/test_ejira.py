@@ -119,7 +119,7 @@ def test_update_commit_msg_without_summary(mocker):
     open_mock.assert_called_once_with("testfile", "r+")
     write = open_mock()
 
-    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[6].args[0]
+    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[-1].args[0]
     for (line, call) in zip(file_text.split("\n"), write.write.call_args_list[:6]):
         assert line.strip() in call.args[0].strip("\n")
 
@@ -140,7 +140,7 @@ def test_update_commit_msg_with_summary(mocker):
     open_mock.assert_called_once_with("testfile", "r+")
     write = open_mock()
 
-    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[6].args[0]
+    assert f"\nJira information:\n{fmt}\n\n" == write.write.call_args_list[-1].args[0]
     for (line, call) in zip(file_text.split("\n"), write.write.call_args_list[:6]):
         assert line.strip() in call.args[0].strip("\n")
 
