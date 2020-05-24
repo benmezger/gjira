@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/benmezger/gjira.svg?style=svg)](https://circleci.com/gh/benmezger/gjira)
+
 # GJira
 
 GJira fetches a Jira issue based on the current branch name and appends to the
