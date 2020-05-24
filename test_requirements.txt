@@ -1,3 +1,4 @@
+-r requirements.txt
 pytest==5.4.2
 pytest-mock==3.1.0
 pytest-sugar==0.9.3
