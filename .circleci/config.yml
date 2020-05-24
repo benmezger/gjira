@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  python_linter:
+    docker:
+      - image: circleci/python:3.6.9-stretch
+    steps:
+      - checkout
+      - run: sudo pip install black
+      - run: black --check .
+  build-and-test:
+    executor: python/default
+    steps:
+      - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
+      - run:
+          command: pytest
+          name: Pytest (Tests)
+
+workflows:
+  main:
+    jobs:
+      - python_linter
+      - build-and-test
