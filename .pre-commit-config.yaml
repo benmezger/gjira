@@ -7,4 +7,4 @@ repos:
     hooks:
     -   id: gjira
         language_version: python3
-        args: ['--board=EMMENTAL']
+        args: ['--board=EMMENTAL', '--regex=ISSUE-\d+']
