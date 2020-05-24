@@ -99,9 +99,15 @@ export jiratoken="token"
 
 Finally, install the hook with pre-commit: `pre-commit install --hook-type prepare-commit-msg`.
 
-## Asciinema
+## Demo
 
-[![asciicast](https://asciinema.org/a/331379.svg)](https://asciinema.org/a/331379)
+### Using Git in the terminal
+
+[![asciicast](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq.svg)](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq)
+
+### Using Git in VSCode
+
+![GJira VScode](images/vscode.gif)
 
 ## Troubleshooting
 
