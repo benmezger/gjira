@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from gjira import gjira
+from gjira import gjira, git
 
 
 def test_issue_attr(jira_issue, jira_attributes):
@@ -84,7 +84,7 @@ def test_issue_attr_with_invalid_missing_attrs(jira_issue, jira_attributes):
 def test_get_branch_name(mocker):
     subprocess = mocker.patch("subprocess.check_output")
     subprocess.return_value = b"SK12/feat/test"
-    gjira.get_branch_name()
+    git.get_branch_name()
     assert subprocess.called_once_with("git", "rev-parse", "--abbrev-ref", "HEAD")
 
 

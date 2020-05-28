@@ -11,14 +11,7 @@ from jira import JIRA, Issue
 from jira.exceptions import JIRAError
 
 GJIRA_START_TEXT = "Jira information:"
-
 GIT_START_LINES = "# Please enter the commit message for your changes. Lines starting\n"
-
-
-def get_branch_name() -> str:
-    return subprocess.check_output(("git", "rev-parse", "--abbrev-ref", "HEAD")).decode(
-        "UTF-8"
-    )
 
 
 def get_jira_from_env() -> dict:

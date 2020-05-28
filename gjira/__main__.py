@@ -2,7 +2,6 @@
 
 import pathlib
 import sys
-import re
 import click
 
 from jira import JIRA
@@ -10,23 +9,13 @@ from jira import JIRA
 from gjira.template import generate_template, get_template_context
 
 from .gjira import (
-    get_branch_name,
     get_issue,
     get_jira_from_env,
     is_gjira_in_file,
     update_commit_message,
 )
 
-
-def get_branch_id(regex):
-    compiled_re = re.compile(regex)
-    branch = get_branch_name()
-
-    if not compiled_re.match(branch):
-        print(f"Bad branch name. Expected format of '{regex}'. Skipping.")
-        sys.exit(0)
-
-    return compiled_re.findall(branch)[0]
+from .git import get_branch_id
 
 
 @click.command()
