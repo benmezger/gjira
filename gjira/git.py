@@ -1,3 +1,4 @@
+from typing import Union
 import re
 import subprocess
 import sys
@@ -18,3 +19,10 @@ def get_branch_id(regex):
         sys.exit(0)
 
     return compiled_re.findall(branch)[0]
+
+
+def validate_branch_name(branch: str, regex: str) -> Union[list, None]:
+    compiled_re = re.compile(regex)
+    if not compiled_re.match(branch):
+        return None
+    return compiled_re.findall(branch)

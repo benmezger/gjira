@@ -12,7 +12,7 @@ from .gjira import (
     update_commit_message,
 )
 
-from .git import get_branch_id
+from .git import get_branch_id, get_branch_name, validate_branch_name
 
 
 @click.command()
@@ -41,5 +41,35 @@ def cmd_update_commit_msg(filename: str, board: str, regex: str, template: str):
     if not issue.keys() or not issue.values():
         sys.exit(0)
 
-    content = generate_template(issue, args.template)
-    update_commit_message(args.filenames[0], content)
+    content = generate_template(issue, template)
+    update_commit_message(filename, content)
+
+
+@click.command()
+@click.option(
+    "--branch-fmt",
+    "-f",
+    required=True,
+    type=str,
+    help="Regex of a branch format to validate",
+)
+@click.option("--branch-name", "-n", type=str)
+def cmd_validate_branch_name(branch_fmt: str, branch_name: str):
+    if branch_name is None:
+        branch_name = get_branch_name()
+
+    valid = validate_branch_name(branch_name, branch_fmt)
+    if valid is None:
+        print(f"Branch name requires the format of '{branch_fmt}'. Aborting.")
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+@click.group()
+def cli():
+    pass
+
+
+cli.add_command(cmd_validate_branch_name)
+cli.add_command(cmd_update_commit_msg)

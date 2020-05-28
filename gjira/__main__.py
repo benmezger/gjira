@@ -1,9 +1,9 @@
 import sys
-from .commands import cmd_update_commit_msg
+from .commands import cmd_update_commit_msg, cmd_validate_branch_name, cli
 
 
 def main(argv=None):
-    cmd_update_commit_msg()
+    cli()
 
 
 if __name__ == "__main__":
