@@ -8,3 +8,6 @@ repos:
     -   id: gjira
         language_version: python3
         args: ['--board=EMMENTAL', '--regex=ISSUE-\d+']
+    -   id: gjira-check-branch
+        language_version: python3
+        args: ["--branch-fmt=^(master|dev(elop)?|release-\d+(\.\d+)*|new-staging|(SKYR-\d+_[a-z]+(-[a-z]+)*))$"]
