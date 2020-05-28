@@ -1,5 +1,5 @@
 # The following is automatically added by GJira
 
-Related Jira issue: {{ key }}
-Related Jira story: {{ parent__key }}
+Related Jira issue: [{{ key }}]
+Related Jira story: [{{ parent__key }}]
 Related Jira description: {{ summary }}
