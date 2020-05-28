@@ -35,8 +35,8 @@ customizable templates based on Jira context. For example:
 ```text
 # The following is automatically by 'commit.template'
 
-Jira issue: {{ key }}
-{% if parent__key %}{Jira story: {{ parent__key }}}{% endif %}
+Jira issue: [{{ key }}]
+{% if parent__key %}{Jira story: [{{ parent__key }}]}{% endif %}
 {% if summary %}{Jira summary: {{ summary }}}{% endif %}
 ```
 
