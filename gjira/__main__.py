@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import argparse
 import pathlib
 import sys
 import re
+import click
 
 from jira import JIRA
 
@@ -18,19 +18,6 @@ from .gjira import (
 )
 
 
-def arg_parser(argv):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("filenames", nargs="+")
-    parser.add_argument(
-        "--template",
-        default=str(pathlib.Path(".").joinpath(".commit.template")),
-        nargs="?",
-    )
-    parser.add_argument("--board")
-    parser.add_argument("--regex")
-    return parser.parse_args(argv)
-
-
 def get_branch_id(regex):
     compiled_re = re.compile(regex)
     branch = get_branch_name()
@@ -42,19 +29,27 @@ def get_branch_id(regex):
     return compiled_re.findall(branch)[0]
 
 
-def main(argv=None):
-    args = arg_parser(argv)
-
-    if is_gjira_in_file(args.filenames[0]):
+@click.command()
+@click.option("--board", "-b", required=True, type=str)
+@click.option("--regex", "-r", required=True, type=str)
+@click.option(
+    "--template",
+    "-t",
+    type=click.Path(exists=True, writable=True, readable=True, resolve_path=True),
+    default=str(pathlib.Path(".").joinpath(".commit.template")),
+)
+@click.argument("filename")
+def update_commit_msg(filename: str, board: str, regex: str, template: str):
+    if is_gjira_in_file(filename):
         print("Duplicated. Skipping")
         sys.exit(0)
 
-    task_id = get_branch_id(args.regex)
+    task_id = get_branch_id(regex)
     options = get_jira_from_env()
 
     jira = JIRA(**options)
 
-    attributes = get_template_context(args.template)
+    attributes = get_template_context(template)
     issue = get_issue(jira, task_id, attributes)
 
     if not issue.keys() or not issue.values():
@@ -62,6 +57,10 @@ def main(argv=None):
 
     content = generate_template(issue, args.template)
     update_commit_message(args.filenames[0], content)
+
+
+def main(argv=None):
+    update_commit_msg()
 
 
 if __name__ == "__main__":
