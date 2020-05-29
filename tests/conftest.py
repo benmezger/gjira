@@ -1,6 +1,8 @@
 import pytest
 
 from jira import JIRA
+from click.testing import CliRunner
+
 import random
 
 
@@ -56,3 +58,8 @@ def git_branch(mocker):
         return subprocess
 
     return _mock_branch
+
+
+@pytest.fixture
+def cli():
+    return CliRunner()
