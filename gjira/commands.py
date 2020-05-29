@@ -15,7 +15,7 @@ from .gjira import (
 from .git import get_branch_id, get_branch_name, validate_branch_name
 
 
-@click.command()
+@click.command("append-jira")
 @click.option("--board", "-b", required=True, type=str)
 @click.option("--regex", "-r", required=True, type=str)
 @click.option(
@@ -45,7 +45,7 @@ def cmd_update_commit_msg(filename: str, board: str, regex: str, template: str):
     update_commit_message(filename, content)
 
 
-@click.command()
+@click.command("check-branch")
 @click.option(
     "--branch-fmt",
     "-f",
