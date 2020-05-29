@@ -47,13 +47,13 @@ def cmd_update_commit_msg(filename: str, board: str, regex: str, template: str):
 
 @click.command("check-branch")
 @click.option(
-    "--branch-fmt",
-    "-f",
+    "--regex",
+    "-r",
     required=True,
     type=str,
     help="Regex of a branch format to validate",
 )
-@click.option("--branch-name", "-n", type=str)
+@click.option("--branch", "-b", type=str)
 def cmd_validate_branch_name(branch_fmt: str, branch_name: str):
     if branch_name is None:
         branch_name = get_branch_name()
