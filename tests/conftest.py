@@ -43,3 +43,16 @@ def jira_issue(mocker):
     jira_get_issue_mock.return_value = lambda: issue
 
     return issue
+
+
+@pytest.fixture
+def git_branch(mocker):
+    def _mock_branch(branch=None):
+        if branch is None:
+            branch = "master"
+
+        subprocess = mocker.patch("subprocess.check_output")
+        subprocess.return_value = bytes(f"{branch}".encode("UTF-8"))
+        return subprocess
+
+    return _mock_branch

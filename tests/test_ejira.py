@@ -81,13 +81,6 @@ def test_issue_attr_with_invalid_missing_attrs(jira_issue, jira_attributes):
     }
 
 
-def test_get_branch_name(mocker):
-    subprocess = mocker.patch("subprocess.check_output")
-    subprocess.return_value = b"SK12/feat/test"
-    git.get_branch_name()
-    assert subprocess.called_once_with("git", "rev-parse", "--abbrev-ref", "HEAD")
-
-
 def test_get_jira_config(mocker):
     environ_mock = mocker.patch.dict(
         os.environ,
