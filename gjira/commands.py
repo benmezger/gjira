@@ -54,13 +54,10 @@ def cmd_update_commit_msg(filename: str, board: str, regex: str, template: str):
     help="Regex of a branch format to validate",
 )
 @click.option("--branch", "-b", type=str)
-def cmd_validate_branch_name(branch_fmt: str, branch_name: str):
-    if branch_name is None:
-        branch_name = get_branch_name()
-
-    valid = validate_branch_name(branch_name, branch_fmt)
+def cmd_validate_branch_name(regex: str, branch: str):
+    valid = validate_branch_name(branch or get_branch_name(), regex)
     if valid is None:
-        print(f"Branch name requires the format of '{branch_fmt}'. Aborting.")
+        print(f"Branch name requires the format of '{regex}'. Aborting.")
         sys.exit(1)
 
     sys.exit(0)
