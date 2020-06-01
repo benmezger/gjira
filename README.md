@@ -27,7 +27,9 @@ and gives the project manager an insight of the current development workload.
 
 ## Setup
 
-### Git commit template
+### `prepare-commit-msg`
+
+#### Git commit template
 
 GJira requires a commit template file. GJira supports Jinja2, which allows
 customizable templates based on Jira context. For example:
@@ -63,13 +65,13 @@ issue.fields.timetracking.timeSpentSeconds            # may be NULL or integer
 Inner issue fields **require** `.` (dot) to be replaced with `__` (double
 underscore).
 
-### Branch
+#### Branch
 
 GJira find Jira ID by the branch name. You can use a regex to specify the
 location for the issue ID, for example: the regex `ISSUE-\d+` will match
 `ISSUE-123/branch-name` or `ISSUE-123-branch-name` etc.
 
-### pre-commit
+#### pre-commit configuration
 
 Add the following repository to your `.pre-commit-config.yml` file
 
@@ -80,10 +82,10 @@ Add the following repository to your `.pre-commit-config.yml` file
     - id: gjira
       args: ["--board=<board/project name>",
             "--template=.commit.template",
-            "--regex='ISSUE-\d+'"]
+            "--regex=ISSUE-\d+"]
 ```
 
-### Environment variables
+#### Environment variables
 
 Set the following environment variables:
 
@@ -95,19 +97,46 @@ export jirauser="your@email.com"
 export jiratoken="token"
 ```
 
-### Installing the hook
+#### Installing the hook
 
 Finally, install the hook with pre-commit: `pre-commit install --hook-type prepare-commit-msg`.
 
+### `pre-push`
+
+GJira has a `pre-push` hook support, which prevents user from pushing to remote
+if the current branch is not within the specified format.
+
+#### pre-commit configuration
+
+To enable `pre-push`, set the following to your `.pre-commit-config.yml` file
+
+```yaml
+- repo: https://github.com/benmezger/gjira
+  rev: feat/click-args
+  hooks:
+    ....
+    - id: gjira-check-branch
+      language_version: python3
+      args: ["--regex=^(feat|refactor|fix|chore)/.*$|^(master|dev(elop)?)$"]
+```
+
+#### Installing the hook
+
+Finally, install `pre-push` hook: `pre-commit install --hook-type pre-push`
+
 ## Demo
 
-### Using Git in the terminal
+### `prepare-commit-msg` using Git in the terminal
 
 [![asciicast](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq.svg)](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq)
 
-### Using Git in VSCode
+### `prepare-commit-msg` Git in VSCode
 
 ![GJira VScode](images/vscode.gif)
+
+### `pre-push`
+
+[![asciicast](https://asciinema.org/a/WZy78gC9H9GUM5Cptt9ulD3OW.svg)](https://asciinema.org/a/WZy78gC9H9GUM5Cptt9ulD3OW)
 
 ## Troubleshooting
 
@@ -133,7 +162,7 @@ Finally, install the hook with pre-commit: `pre-commit install --hook-type prepa
 There are two ways of manually running GJira.
 
 1. `python -m gjira` which will run `main()` in `__main__`
-2. Installing the cli to your system `pip install .`
+2. You can install the cli to your system `pip install .`
 
 ## TODO
 

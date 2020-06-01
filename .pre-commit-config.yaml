@@ -8,3 +8,6 @@ repos:
     -   id: gjira
         language_version: python3
         args: ['--board=EMMENTAL', '--regex=ISSUE-\d+']
+    -   id: gjira-check-branch
+        language_version: python3
+        args: ["--regex=^(feat|refactor|fix|chore)/.*$|^(master|dev(elop)?)$"]

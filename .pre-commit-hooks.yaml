@@ -1,7 +1,15 @@
 -   id: gjira
     name: Jira issue commit message
     description: Add the issue ID to the body of the commit
-    entry: gjira
+    entry: gjira append-jira
     language: python
     always_run: true
     stages: [prepare-commit-msg]
+-   id: gjira-check-branch
+    name: Validate branch format
+    description: Validates if branch has specified format by the given regex
+    entry: gjira check-branch
+    language: python
+    always_run: true
+    pass_filenames: false
+    stages: [push]
