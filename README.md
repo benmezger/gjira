@@ -126,7 +126,7 @@ Finally, install `pre-push` hook: `pre-commit install --hook-type pre-push`
 
 ## Demo
 
-### `prepare-commit-msg` sing Git in the terminal
+### `prepare-commit-msg` using Git in the terminal
 
 [![asciicast](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq.svg)](https://asciinema.org/a/GGURgGibHGHII9jaIH5a5w3Yq)
 
