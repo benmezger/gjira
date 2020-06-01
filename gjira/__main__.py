@@ -35,7 +35,7 @@ def get_branch_id(regex):
     compiled_re = re.compile(regex)
     branch = get_branch_name()
 
-    if not compiled_re.match(branch):
+    if not compiled_re.findall(branch):
         print(f"Bad branch name. Expected format of '{regex}'. Skipping.")
         sys.exit(0)
 
