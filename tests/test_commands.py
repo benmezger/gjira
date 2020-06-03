@@ -55,5 +55,5 @@ def test_cmd_validate_branch_name_with_invalid_name(cli):
     assert result.exit_code == 1
     assert (
         result.output
-        == "Branch name requires the format of 'JIRA-\\d+_[a-z]+(-[a-z]+)*$'. Aborting.\n"
+        == "Error: Branch 'JIRA-1234_hello_world-123' name requires the format of 'JIRA-\\d+_[a-z]+(-[a-z]+)*$'. Aborting.\n"
     )

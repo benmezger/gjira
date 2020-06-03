@@ -10,6 +10,8 @@ from typing import Iterable
 from jira import JIRA, Issue
 from jira.exceptions import JIRAError
 
+from gjira.output import write_error
+
 GJIRA_START_TEXT = "Jira information:"
 GIT_START_LINES = "# Please enter the commit message for your changes. Lines starting\n"
 
@@ -49,10 +51,10 @@ def get_issue(jira: JIRA, id: str, attributes: Iterable) -> dict:
         }
     except JIRAError as e:
         if e.status_code == 404:
-            print(f"Issue '{id}' not found.")
+            write_error(f"Issue '{id}' not found.")
         else:
-            print(
-                f"Error fetching issue '{id}'. Status code: {e.status_code} | {e.msg}"
+            write_error(
+                f"Error fetching issue '{id}'. Status code: '{e.status_code}' | {e.msg}"
             )
         return {}
 
