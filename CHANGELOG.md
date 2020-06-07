@@ -1,5 +1,11 @@
-<a name="unreleased"></a>
-## [Unreleased]
+<a name="v3.0.0"></a>
+## [v3.0.0] - 2020-06-01
+
+<a name="v3.1.0"></a>
+## [v3.1.0] - 2020-06-07
+### Feat
+- Add HTTP max-retries flag and custom print
+- Add CHANGELOG to project
 
 
 <a name="v3.0.0"></a>
