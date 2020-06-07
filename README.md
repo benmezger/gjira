@@ -85,6 +85,8 @@ Add the following repository to your `.pre-commit-config.yml` file
             "--regex=ISSUE-\d+"]
 ```
 
+Other gjira args include `--max-retries` for number of HTTP retries before failing.
+
 #### Environment variables
 
 Set the following environment variables:
