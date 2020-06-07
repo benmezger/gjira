@@ -1,3 +1,4 @@
+from typing import Iterable, Union
 import pathlib
 import sys
 import click
@@ -15,6 +16,12 @@ from gjira.output import write_error
 @click.option("--board", "-b", required=True, type=str)
 @click.option("--regex", "-r", required=True, type=str)
 @click.option(
+    "--ignore-files",
+    "-i",
+    default=",".join(("MERGE_MSG", "SQUASH_MSG",)),
+    show_default=True,
+)
+@click.option(
     "--template",
     "-t",
     type=click.Path(exists=True, writable=True, readable=True, resolve_path=True),
@@ -29,8 +36,20 @@ from gjira.output import write_error
 )
 @click.argument("filename")
 def cmd_update_commit_msg(
-    filename: str, board: str, regex: str, template: str, max_retries: int
+    filename: str,
+    board: str,
+    regex: str,
+    template: str,
+    max_retries: int,
+    ignore_files: Union[Iterable, str],
 ):
+    if isinstance(ignore_files, str):
+        ignore_files = ignore_files.split(",")
+
+    if filename in ignore_files:
+        print(f"File '{filename}'. Skipping.")
+        sys.exit(0)
+
     if is_gjira_in_file(filename):
         write_error("Duplicated. Skipping")
         sys.exit(0)
