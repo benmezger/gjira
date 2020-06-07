@@ -1,6 +1,18 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+<a name="v3.2.0"></a>
+## [v3.2.0] - 2020-06-07
+### Feat
+- Ignore flag for MERGE_MSG and SQUASH_MSG by default
+
+
+<a name="v3.1.0"></a>
+## [v3.1.0] - 2020-06-07
+### Feat
+- Add HTTP max-retries flag and custom print
+- Add CHANGELOG to project
+
 
 <a name="v3.0.0"></a>
 ## [v3.0.0] - 2020-06-01
@@ -171,7 +183,8 @@
 - Reorder imports
 
 
-[Unreleased]: https://github.com/benmezger/gjira/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/benmezger/gjira/compare/v3.1.0...HEAD
+[v3.1.0]: https://github.com/benmezger/gjira/compare/v3.0.0...v3.1.0
 [v3.0.0]: https://github.com/benmezger/gjira/compare/v2.2.8...v3.0.0
 [v2.2.8]: https://github.com/benmezger/gjira/compare/v2.2.7...v2.2.8
 [v2.2.7]: https://github.com/benmezger/gjira/compare/v2.2.6...v2.2.7

@@ -3,6 +3,8 @@ import re
 import subprocess
 import sys
 
+from gjira.output import write_error
+
 
 def get_branch_name() -> str:
     return subprocess.check_output(("git", "rev-parse", "--abbrev-ref", "HEAD")).decode(
@@ -15,7 +17,9 @@ def get_branch_id(regex):
     branch = get_branch_name()
 
     if not compiled_re.findall(branch):
-        print(f"Bad branch name. Expected format of '{regex}'. Skipping.")
+        write_error(
+            f"Bad branch name '{branch}'. Expected format of '{regex}'. Skipping."
+        )
         sys.exit(0)
 
     return compiled_re.findall(branch)[0]
