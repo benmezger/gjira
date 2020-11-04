@@ -18,7 +18,12 @@ from gjira.output import write_error
 @click.option(
     "--ignore-files",
     "-i",
-    default=",".join(("MERGE_MSG", "SQUASH_MSG",)),
+    default=",".join(
+        (
+            "MERGE_MSG",
+            "SQUASH_MSG",
+        )
+    ),
     show_default=True,
 )
 @click.option(

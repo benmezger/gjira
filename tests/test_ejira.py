@@ -92,7 +92,10 @@ def test_get_jira_config(mocker):
     )
     assert gjira.get_jira_from_env() == {
         "server": "http://testserver.com",
-        "basic_auth": ("test-user@test.com", "172y1dsyd7asda",),
+        "basic_auth": (
+            "test-user@test.com",
+            "172y1dsyd7asda",
+        ),
     }
 
 
