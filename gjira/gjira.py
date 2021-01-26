@@ -75,11 +75,11 @@ def update_commit_message(filename: str, content: str) -> list:
         pos = 0
         lines = []
         for i, line in enumerate(fd):
-            lines.append(line)
             # have we found where git default msg starts?
             if line == GIT_START_LINES:
                 pos = i  # line number of git's default message
                 break
+            lines.append(line)
 
         content = f"{GJIRA_START_TEXT}\n{content}\n"
         pos = pos if pos else -1
@@ -93,7 +93,7 @@ def update_commit_message(filename: str, content: str) -> list:
             content = f"\n{content}\n"
 
         # add fmt to the corresponding position and read any unread line
-        lines = lines + [content] + fd.readlines()
+        lines = lines + [content] + [GIT_START_LINES] + fd.readlines()
 
         # Write lines back to file
         fd.seek(0)
