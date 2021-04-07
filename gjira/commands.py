@@ -47,7 +47,7 @@ def cmd_update_commit_msg(
     template: str,
     max_retries: int,
     ignore_files: Union[Iterable, str],
-):
+):      
     if isinstance(ignore_files, str):
         ignore_files = ignore_files.split(",")
 
@@ -59,13 +59,15 @@ def cmd_update_commit_msg(
         write_error("Duplicated. Skipping")
         sys.exit(0)
 
-    task_id = get_branch_id(regex)
-    options = get_jira_from_env()
-
     try:
+        task_id = get_branch_id(regex)
+        options = get_jira_from_env()
+
         jira = JIRA(**options, max_retries=max_retries)
+        # Ensure board permission
+        jira.boards()
     except Exception as e:
-        write_error(f"Error: Connection error. Aborting", with_env=True)
+        write_error(f"Error: Aborting", with_env=True)
         write_error(f"Python trackback {e}\n")
         sys.exit(1)
 
