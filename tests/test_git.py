@@ -11,7 +11,7 @@ def test_get_branch_name(mocker, git_branch):
 def test_get_branch_id(mocker, git_branch):
     git_branch("JIRA-1234_test-one-two")
 
-    id = get_branch_id("JIRA-\d+")
+    id = get_branch_id("JIRA-\\d+")
 
     assert id == "JIRA-1234"
     assert git_branch().called_once()
@@ -28,9 +28,9 @@ def test_get_branch_id_invalid(mocker, git_branch):
 
 def test_validate_branch_name():
     assert validate_branch_name(
-        "JIRA-1234_hello-world", "JIRA-\d+_[a-z]+(-[a-z]+)*$"
+        "JIRA-1234_hello-world", "JIRA-\\d+_[a-z]+(-[a-z]+)*$"
     ) == ["-world"]
 
 
 def test_validate_branch_name_with_invalid_branch():
-    assert validate_branch_name("JIRAhello-world", "JIRA-\d+_[a-z]+(-[a-z]+)*$") == None
+    assert validate_branch_name("JIRAhello-world", "JIRA-\\d+_[a-z]+(-[a-z]+)*$") == None
