@@ -1,5 +1,9 @@
 [![CircleCI](https://circleci.com/gh/benmezger/gjira.svg?style=svg)](https://circleci.com/gh/benmezger/gjira)
 
+# Note
+
+I've archived this repository since I don't use Jira anymore, so I don't plan on maintaining it – at least for now. 
+
 # GJira
 
 GJira fetches a Jira issue based on the current branch name and appends to the
