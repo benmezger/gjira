@@ -18,8 +18,8 @@ GIT_START_LINES = "# Please enter the commit message for your changes. Lines sta
 
 def get_jira_from_env() -> dict:
     return {
-        "server": os.environ.get("jiraserver"),
-        "basic_auth": (os.environ.get("jirauser"), os.environ.get("jiratoken")),
+        "server": os.environ["jiraserver"],
+        "basic_auth": (os.environ["jirauser"], os.environ["jiratoken"]),
     }
 
 
